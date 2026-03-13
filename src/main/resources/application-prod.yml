@@ -1,8 +1,7 @@
 spring:
   datasource:
-    # Render provee: postgresql://user:pass@host/db
-    # Spring necesita: jdbc:postgresql://user:pass@host/db
-    url: jdbc:${DATABASE_URL}
+    # Reemplaza 'postgresql://' por 'jdbc:postgresql://'
+    url: jdbc:${DATABASE_URL/postgresql:/jdbc:postgresql:}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
