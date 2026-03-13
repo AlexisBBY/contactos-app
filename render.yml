@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: contactos-app
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: contactos-db
+          property: connectionString
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+
+databases:
+  - name: contactos-db
+    databaseName: contactos
+    user: contactos_user
+    plan: free
