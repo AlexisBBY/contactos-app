@@ -14,11 +14,26 @@ interface ContactoRepository : JpaRepository<Contacto, Long> {
 
     @Query("""
         SELECT c FROM Contacto c
-        WHERE (:nombre IS NULL OR LOWER(CONCAT(c.nombre, ' ', c.apellidos)) LIKE LOWER(CONCAT('%', :nombre, '%')))
-        AND (:correo IS NULL OR LOWER(c.correo) LIKE LOWER(CONCAT('%', :correo, '%')))
-        AND (:telefono IS NULL OR c.telefono LIKE CONCAT('%', :telefono, '%'))
-        AND (:codigoPostal IS NULL OR c.codigoPostal LIKE CONCAT('%', :codigoPostal, '%'))
-        AND (:fechaNacimiento IS NULL OR c.fechaNacimiento = :fechaNacimiento)
+        WHERE (
+            :nombre IS NULL OR
+            LOWER(CONCAT(CONCAT(c.nombre, ' '), c.apellidos)) LIKE LOWER(CONCAT(CONCAT('%', :nombre), '%'))
+        )
+        AND (
+            :correo IS NULL OR
+            LOWER(c.correo) LIKE LOWER(CONCAT(CONCAT('%', :correo), '%'))
+        )
+        AND (
+            :telefono IS NULL OR
+            c.telefono LIKE CONCAT(CONCAT('%', :telefono), '%')
+        )
+        AND (
+            :codigoPostal IS NULL OR
+            c.codigoPostal LIKE CONCAT(CONCAT('%', :codigoPostal), '%')
+        )
+        AND (
+            :fechaNacimiento IS NULL OR
+            c.fechaNacimiento = :fechaNacimiento
+        )
     """)
     fun buscarConFiltros(
         @Param("nombre") nombre: String?,
