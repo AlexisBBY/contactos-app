@@ -32,14 +32,7 @@ class ContactoService(
         page: Int, size: Int
     ): Map<String, Any> {
         val pageable = PageRequest.of(page, size, Sort.by("apellidos").ascending())
-        val resultado: Page<Contacto> = repo.buscarConFiltros(
-            nombre?.takeIf { it.isNotBlank() },
-            correo?.takeIf { it.isNotBlank() },
-            telefono?.takeIf { it.isNotBlank() },
-            codigoPostal?.takeIf { it.isNotBlank() },
-            fechaNacimiento,
-            pageable
-        )
+        val resultado: Page<Contacto> = repo.findAll(pageable)
         return mapOf(
             "content" to resultado.content.map { toDto(it) },
             "totalElements" to resultado.totalElements,
