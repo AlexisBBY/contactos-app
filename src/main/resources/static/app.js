@@ -175,23 +175,30 @@ function pedirEliminar(id) {
 }
 
 function cerrarModal() {
-  state.eliminandoId = null;
   document.getElementById('modal-overlay').classList.remove('show');
 }
 
 async function confirmarEliminar() {
   if (!state.eliminandoId) return;
+
+  const id = state.eliminandoId;
   cerrarModal();
+
   try {
-    const resp = await fetch(`/api/contactos/${state.eliminandoId}`, { method: 'DELETE' });
-    if (!resp.ok) throw new Error('No se pudo eliminar');
+    const resp = await fetch(`/api/contactos/${id}`, { method: 'DELETE' });
+    const texto = await resp.text();
+
+    if (!resp.ok) {
+      throw new Error(`HTTP ${resp.status} - ${texto}`);
+    }
+
+    state.eliminandoId = null;
     mostrarToast('Contacto eliminado', 'success');
     cargarContactos(state.paginaActual);
   } catch (e) {
-    mostrarToast(e.message, 'error');
+    mostrarToast('No se pudo eliminar: ' + e.message, 'error');
   }
 }
-
 async function guardar() {
   if (!validarFormulario()) return;
 
