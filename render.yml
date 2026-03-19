@@ -5,18 +5,8 @@ services:
     dockerfilePath: ./Dockerfile
     plan: free
     envVars:
-      - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: contactos-db
-          property: user
-      - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: contactos-db
-          property: password
       - key: SPRING_PROFILES_ACTIVE
         value: prod
-      - key: SPRING_DATASOURCE_URL
-        sync: false
 
 databases:
   - name: contactos-db
